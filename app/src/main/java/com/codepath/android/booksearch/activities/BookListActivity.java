@@ -9,8 +9,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -50,7 +52,7 @@ public class BookListActivity extends AppCompatActivity {
         rvBooks = findViewById(R.id.rvBooks);
         abooks = new ArrayList<>();
 
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
         // Initialize the adapter
@@ -58,6 +60,10 @@ public class BookListActivity extends AppCompatActivity {
         bookAdapter.setOnItemClickListener(new BookAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
+                // on some click or some loading we need to wait for...
+                ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+                pb.setVisibility(ProgressBar.VISIBLE);
+
                 Toast.makeText(
                         BookListActivity.this,
                         "An item at position " + position + " clicked!",
@@ -70,6 +76,10 @@ public class BookListActivity extends AppCompatActivity {
                 Book book = abooks.get(position);
                 // Pass the book into details activity using extras
                 intent.putExtra(Book.class.getSimpleName(), Parcels.wrap(book));
+
+                // run a background job and once complete
+                pb.setVisibility(ProgressBar.INVISIBLE);
+
                 context.startActivity(intent);
             }
         });
