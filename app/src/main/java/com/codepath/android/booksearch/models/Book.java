@@ -6,12 +6,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 
+@Parcel
 public class Book {
-    private String openLibraryId;
-    private String author;
-    private String title;
+    String openLibraryId;
+    String author;
+    String title;
+    String publishDate;
 
     public String getOpenLibraryId() {
         return openLibraryId;
@@ -25,10 +29,18 @@ public class Book {
         return author;
     }
 
+
+    public String getPublishDate() {
+        return publishDate.replace("[", "").
+                replace("\"","").replace("]","");
+    }
+
     // Get book cover from covers API
     public String getCoverUrl() {
         return "https://covers.openlibrary.org/b/olid/" + openLibraryId + "-L.jpg?default=false";
     }
+
+    public Book() {}
 
     // Returns a Book given the expected JSON
     public static Book fromJson(JSONObject jsonObject) {
@@ -44,6 +56,8 @@ public class Book {
             }
             book.title = jsonObject.has("title_suggest") ? jsonObject.getString("title_suggest") : "";
             book.author = getAuthor(jsonObject);
+            book.publishDate = jsonObject.has("publish_date") ?
+                    jsonObject.getString("publish_date") : "";
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
