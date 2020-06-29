@@ -77,7 +77,7 @@ public class BookListActivity extends AppCompatActivity {
                 // Pass the book into details activity using extras
                 intent.putExtra(Book.class.getSimpleName(), Parcels.wrap(book));
 
-                // run a background job and once complete
+                // Run the background job and once complete
                 pb.setVisibility(ProgressBar.INVISIBLE);
 
                 context.startActivity(intent);
