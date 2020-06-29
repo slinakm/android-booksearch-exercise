@@ -50,8 +50,8 @@ public class BookListActivity extends AppCompatActivity {
         rvBooks = findViewById(R.id.rvBooks);
         abooks = new ArrayList<>();
 
-//        toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Initialize the adapter
         bookAdapter = new BookAdapter(this, abooks);
