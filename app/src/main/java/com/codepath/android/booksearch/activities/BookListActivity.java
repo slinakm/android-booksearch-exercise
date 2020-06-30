@@ -97,6 +97,8 @@ public class BookListActivity extends AppCompatActivity {
     // Executes an API call to the OpenLibrary search endpoint, parses the results
     // Converts them into an array of book objects and adds them to the adapter
     private void fetchBooks(String query) {
+        final ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
         client = new BookClient();
         client.getBooks(query, new JsonHttpResponseHandler() {
 
@@ -116,6 +118,7 @@ public class BookListActivity extends AppCompatActivity {
                         for (Book book : books) {
                             abooks.add(book); // add book through the adapter
                         }
+                        pb.setVisibility(ProgressBar.INVISIBLE);
                         bookAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException e) {
